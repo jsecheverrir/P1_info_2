@@ -32,3 +32,26 @@ Y por último la generación de configuraciones de cerraduras, es decir, las mat
 	
 -Función para imprimir matrices: Crear una función que pueda imprimir matrices en la consola o en algún otro formato de salida. 
   Esta función debe aceptar la matriz como parámetro y mostrar sus elementos de manera legible.
+
+//Analisis dde conceptos fundamentales:
+Estructura de datos M: Es una estructura que puede girar y cambiar de dimensiones. Puede verse como una matriz cuadrada de tamaño impar,
+con un número igual de filas y columnas.
+
+Cerradura X: Se forma al alinear varias estructuras M una tras otra, utilizando la celda central como referencia. No hay restricciones
+en la cantidad de estructuras M que se pueden alinear, y sus tamaños pueden ser diferentes.
+
+Sistema de apertura: La cerradura X se abre validando una regla K. Esta regla K especifica condiciones para las celdas en diferentes
+estructuras alineadas. Por ejemplo, una regla K puede indicar que el valor de una celda en una estructura debe ser mayor que el valor
+de la celda correspondiente en la siguiente estructura, y así sucesivamente.
+
+Para resumir, la cerradura X utiliza una estructura de datos flexible y un sistema de apertura basado en una regla K para proporcionar
+seguridad. La capacidad de girar y cambiar de tamaño de las estructuras M permite una mayor flexibilidad en el diseño de la cerradura y 
+en las condiciones de apertura.
+
+
+
+
+
+
+Validación de la regla K: Para abrir la cerradura, se deben girar las estructuras de manera independiente para alinear las celdas de manera que la validación de la regla K sea verdadera. Esto implica ajustar la orientación de cada estructura para que las condiciones especificadas por la regla K se cumplan.
+
