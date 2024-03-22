@@ -44,6 +44,11 @@ Sistema de apertura: La cerradura X se abre validando una regla K. Esta regla K 
 estructuras alineadas. Por ejemplo, una regla K puede indicar que el valor de una celda en una estructura debe ser mayor que el valor
 de la celda correspondiente en la siguiente estructura, y así sucesivamente.
 
+
+Validación de la regla K: Para abrir la cerradura, se deben girar las estructuras de manera independiente para alinear las celdas de manera
+que la validación de la regla K sea verdadera. Esto implica ajustar la orientación de cada estructura para que las condiciones especificadas por la regla K se cumplan.
+
+
 Para resumir, la cerradura X utiliza una estructura de datos flexible y un sistema de apertura basado en una regla K para proporcionar
 seguridad. La capacidad de girar y cambiar de tamaño de las estructuras M permite una mayor flexibilidad en el diseño de la cerradura y 
 en las condiciones de apertura.
@@ -53,5 +58,4 @@ en las condiciones de apertura.
 
 
 
-Validación de la regla K: Para abrir la cerradura, se deben girar las estructuras de manera independiente para alinear las celdas de manera que la validación de la regla K sea verdadera. Esto implica ajustar la orientación de cada estructura para que las condiciones especificadas por la regla K se cumplan.
 
