@@ -1,33 +1,34 @@
 1a.
 -Análisis del problema
 
-	-La empresa Informa2 necesita desarrollar un sistema de cerradura, denominado Cerradura X, 
-  que consta de varias estructuras de matrices alineadas. Cada estructura puede tener un tamaño variable y debe ser capaz de rotar. 
-  Para abrir la cerradura, se utiliza una regla de apertura K que especifica relaciones entre celdas de diferentes estructuras.
+-La empresa Informa2 necesita desarrollar un sistema de cerradura, denominado Cerradura X, 
+que consta de varias estructuras de matrices alineadas. Cada estructura puede tener un tamaño variable y debe ser capaz de rotar. 
+Para abrir la cerradura, se utiliza una regla de apertura K que especifica relaciones entre celdas de diferentes estructuras.
+		
+-Para plantear esta solución tenemos unos requisitos del sistema como la creación de las estructuras de datos, después poder rotar 
+las estructuras según lo requerido y teniendo en cuenta sus 4 estados. Debemos también saber configurar estas cerraduras con diferentes 
+combinaciones de estructuras alineadas, teniendo en cuenta sus posibles variaciones en cantidad y tamaño. Por otro lado la validación 
+de las reglas de apertura, lo que llamamos como K, aquí tener muy presente las relaciones entre celdas adyacentes y diferentes estructuras. 
+Y por último la generación de configuraciones de cerraduras, es decir, las matrices que deben ir alienadas para que un K especifico logre abrir esta cerradura. 
 	
-	-Para plantear esta solución tenemos unos requisitos del sistema como la creación de las estructuras de datos, después poder rotar 
-  las estructuras según lo requerido y teniendo en cuenta sus 4 estados. Debemos también saber configurar estas cerraduras con diferentes 
-  combinaciones de estructuras alineadas, teniendo en cuenta sus posibles variaciones en cantidad y tamaño. Por otro lado la validación 
-  de las reglas de apertura, lo que llamamos como K, aquí tener muy presente las relaciones entre celdas adyacentes y diferentes estructuras. Y por último la generación de configuraciones de cerraduras, es decir, las matrices que deben ir alienadas para que un K especifico logre abrir esta cerradura. 
 	
-	
-	*Consideraciones adicionales 
-		-Eficiencia y rendimiento son críticos, especialmente al manipular grandes matrices.
-		-La modularidad y reutilización del código son importantes para facilitar el mantenimiento y la extensibilidad del sistema.
-		-Se debe proporcionar una interfaz clara y amigable para que los usuarios configuren y operen el algoritmo de manera sencilla 
+*Consideraciones adicionales 
+-Eficiencia y rendimiento son críticos, especialmente al manipular grandes matrices.
+-La modularidad y reutilización del código son importantes para facilitar el mantenimiento y la extensibilidad del sistema.
+-Se debe proporcionar una interfaz clara y amigable para que los usuarios configuren y operen el algoritmo de manera sencilla 
 
 1b. 
 -Esquema donde describa las tareas que usted definió en el desarrollo de los algoritmos.
 
-	-Función para crear matrices de tamaño variable: Diseñar una función que pueda crear matrices de tamaño variable. 
+-Función para crear matrices de tamaño variable: Diseñar una función que pueda crear matrices de tamaño variable. 
   Esta función debe aceptar como parámetros el número de filas y columnas de la matriz y devolver la matriz creada.
 	
-	-Función para redimensionar matrices: Desarrollar una función que permita redimensionar matrices existentes. 
+-Función para redimensionar matrices: Desarrollar una función que permita redimensionar matrices existentes. 
   Esta función debe aceptar como parámetros la matriz a redimensionar, así como el nuevo número de filas y columnas. 
   Debe ser capaz de ajustar la matriz a la nueva dimensión, manteniendo los datos existentes si es posible.
 	
-	-Función para realizar rotaciones: Implementar una función que pueda rotar una matriz en una dirección específica. 
+-Función para realizar rotaciones: Implementar una función que pueda rotar una matriz en una dirección específica. 
   Esta función puede aceptar como parámetros la matriz a rotar y el estado de rotación (1,2,3). 
 	
-	-Función para imprimir matrices: Crear una función que pueda imprimir matrices en la consola o en algún otro formato de salida. 
+-Función para imprimir matrices: Crear una función que pueda imprimir matrices en la consola o en algún otro formato de salida. 
   Esta función debe aceptar la matriz como parámetro y mostrar sus elementos de manera legible.
