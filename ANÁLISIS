@@ -33,7 +33,7 @@ Y por último la generación de configuraciones de cerraduras, es decir, las mat
 -Función para imprimir matrices: Crear una función que pueda imprimir matrices en la consola o en algún otro formato de salida. 
   Esta función debe aceptar la matriz como parámetro y mostrar sus elementos de manera legible.
 
-//Analisis dde conceptos fundamentales:
+//Analisis de conceptos fundamentales:
 Estructura de datos M: Es una estructura que puede girar y cambiar de dimensiones. Puede verse como una matriz cuadrada de tamaño impar,
 con un número igual de filas y columnas.
 
@@ -45,13 +45,85 @@ estructuras alineadas. Por ejemplo, una regla K puede indicar que el valor de un
 de la celda correspondiente en la siguiente estructura, y así sucesivamente.
 
 
-Validación de la regla K: Para abrir la cerradura, se deben girar las estructuras de manera independiente para alinear las celdas de manera
-que la validación de la regla K sea verdadera. Esto implica ajustar la orientación de cada estructura para que las condiciones especificadas por la regla K se cumplan.
+Validación de la regla K: Para abrir la cerradura, se deben girar las estructuras de manera independiente para alinear las celdas 
+de manera que la validación de la regla K sea verdadera. Esto implica ajustar la orientación de cada estructura para que las 
+condiciones especificadas por la regla K se cumplan.
 
 
 Para resumir, la cerradura X utiliza una estructura de datos flexible y un sistema de apertura basado en una regla K para proporcionar
 seguridad. La capacidad de girar y cambiar de tamaño de las estructuras M permite una mayor flexibilidad en el diseño de la cerradura y 
 en las condiciones de apertura.
+
+
+*Funciones a implementar 
+1. def crearMatriz()                       //manejo de matrices
+Entradas:
+Número de filas (filas)
+Número de columnas (columnas)
+Variables:
+Puntero a un arreglo bidimensional (matriz)
+Salida:
+Puntero a la matriz creada (matriz)
+
+2. def redimensionarMatriz()
+Entradas:
+Matriz a redimensionar (matriz)
+Número de filas deseado (nuevasFilas)
+Número de columnas deseado (nuevasColumnas)
+Variables internas:
+Nueva matriz redimensionada (nuevaMatriz)
+Salida:
+Matriz redimensionada (nuevaMatriz)
+
+3. rotarMatriz
+Entradas:
+Matriz a rotar (matriz)
+Estado de rotación (estado)
+Variables:
+Variables temporales para almacenar elementos durante la rotación
+Salida:
+Matriz rotada (matrizRotada)
+
+4. imprimirMatriz()
+Entradas:
+Matriz a imprimir (matriz)
+Variables:
+Variables para iterar sobre filas y columnas de la matriz
+Salida:
+
+
+//Debemos implementar algo para el manejo de todas estas matrices, puede ser un arreglo de matrices, un arreglo de arreglos
+
+
+5. validarClaveK()                  //verificación de claves
+Entrada:
+Clave K como cadena de caracteres (claveK)                  //verificar que k sean solo numeros empezando del 0 
+Cantidad de matrices en la cerradura X (cantidadMatrices)
+Salida:
+Valor booleano que indica si la clave K es válida (true) o no (false)
+
+
+6. verificarClaveK()                     //ver que k sea coherente con la cerradura que tenemos, por ejemplo longitud de las condiciones
+Entrada:                                 //que las condiciones de los numeros a evaluar de k sean coherentes con el numero de matrices
+Clave K como cadena de caracteres (claveK)  //que tenemos 
+Salida:
+Valor booleano que indica si el formato de la clave K es correcto (true) o no (false)
+
+
+7. verificarFilas_Columnas               //verificar que la fila y columna a evaluar exista en cada una de las matrices de la cerradura
+Entrada:
+Arreglo de números de fila y columna extraídos de la clave K (numerosFilasColumnas)
+Dimensiones de las matrices en la cerradura X (dimensionesMatrices)
+Salida:
+Valor booleano que indica si los números de fila y columna existen dentro de las matrices de la cerradura (true) o no (false)
+
+
+
+8.  validarReglas()
+
+
+
+
 
 
 
