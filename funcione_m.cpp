@@ -30,6 +30,38 @@ void crearmatriz(int** matriz, int dimension) {
     }
 }
 
+void rotarMatriz(int** matriz, int dimension) {
+    int** rotado = new int*[dimension];
+    for (int i = 0; i < dimension; ++i) {
+        rotado[i] = new int[dimension];
+    }
+
+    for (int i = 0; i < dimension; ++i) {
+        for (int j = 0; j < dimension; ++j) {
+            rotado[dimension - j - 1][i] = matriz[i][j];
+        }
+    }
+
+    for (int i = 0; i < dimension; ++i) {
+        for (int j = 0; j < dimension; ++j) {
+            matriz[i][j] = rotado[i][j];
+        }
+    }
+    
+    for (int i = 0; i < dimension; ++i) {
+        for (int j = 0; j < dimension; ++j) {
+            cout << matriz[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    for (int i = 0; i < dimension; ++i) {
+        delete[] rotado[i];
+    }
+    delete[] rotado;
+}
+
+
 int main() {
     int dimension;
     cout << "Ingrese la dimension de la matriz cuadrada: ";
@@ -45,7 +77,9 @@ int main() {
         matriz[i] = new int[dimension];
     }
 
-    crearmatriz(matriz, dimension);
+    crearmatriz(matriz,dimension);
+
+    rotarMatriz(matriz,dimension);
 
     for (int i = 0; i < dimension; ++i) {
         delete[] matriz[i];
