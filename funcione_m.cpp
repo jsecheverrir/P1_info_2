@@ -2,15 +2,12 @@
 using namespace std;
 
 //Prototipos de funciones
-void crearmatriz();
-void redimensionarMatriz();
-void rotarMatriz();
-void imprimirMatriz();
+void crearMatriz(int** matriz, int dimension);
+void rotarMatriz(int** matriz, int dimension);
+void imprimirMatriz(int** matriz, int dimension);
+void liberarMemoria(int** matriz, int dimension);
 
-#include <iostream>
-using namespace std;
-
-void crearmatriz(int** matriz, int dimension) {
+void crearMatriz(int** matriz, int dimension) {
     int contador = 1;
     for (int i = 0; i < dimension; ++i) {
         for (int j = 0; j < dimension; ++j) {
@@ -21,17 +18,10 @@ void crearmatriz(int** matriz, int dimension) {
             }
         }
     }
-
-    for (int i = 0; i < dimension; ++i) {
-        for (int j = 0; j < dimension; ++j) {
-            cout << matriz[i][j] << " ";
-        }
-        cout << endl;
-    }
 }
 
 void rotarMatriz(int** matriz, int dimension) {
-    int** rotado = new int*[dimension];
+    int** rotado = new int*[dimension],n=dimension;
     for (int i = 0; i < dimension; ++i) {
         rotado[i] = new int[dimension];
     }
@@ -48,19 +38,25 @@ void rotarMatriz(int** matriz, int dimension) {
         }
     }
     
+    imprimirMatriz(rotado,dimension);
+    liberarMemoria(rotado,dimension);
+}
+
+void imprimirMatriz(int **matriz,int dimension){
     for (int i = 0; i < dimension; ++i) {
         for (int j = 0; j < dimension; ++j) {
             cout << matriz[i][j] << " ";
         }
-        cout << endl;
+        cout<<endl;
     }
-
-    for (int i = 0; i < dimension; ++i) {
-        delete[] rotado[i];
-    }
-    delete[] rotado;
 }
 
+void liberarMemoria(int **matriz,int dimension){
+    for (int i = 0; i < dimension; ++i) {
+        delete[] matriz[i];
+    }
+    delete[] matriz;
+}
 
 int main() {
     int dimension;
@@ -77,14 +73,13 @@ int main() {
         matriz[i] = new int[dimension];
     }
 
-    crearmatriz(matriz,dimension);
+    crearMatriz(matriz,dimension);
+    imprimirMatriz(matriz,dimension);
+    cout<<endl;
 
     rotarMatriz(matriz,dimension);
 
-    for (int i = 0; i < dimension; ++i) {
-        delete[] matriz[i];
-    }
-    delete[] matriz;
+    liberarMemoria(matriz,dimension);
 
     return 0;
 }
