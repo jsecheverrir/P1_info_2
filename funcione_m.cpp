@@ -6,6 +6,7 @@ void crearMatriz(int** matriz, int dimension);
 void rotarMatriz(int** matriz, int dimension);
 void imprimirMatriz(int** matriz, int dimension);
 void liberarMemoria(int** matriz, int dimension);
+void redimensionarMatriz(int **matriz,int dimension,int Newdimension);
 
 void crearMatriz(int** matriz, int dimension) {
     int contador = 1;
@@ -56,6 +57,22 @@ void liberarMemoria(int **matriz,int dimension){
         delete[] matriz[i];
     }
     delete[] matriz;
+}
+
+void redimensionarMatriz(int **&matriz,int dimension,int Newdimension){
+    int **nueva_matriz = new int *[Newdimension];
+    for (int i = 0; i < Newdimension; ++i) {
+        nueva_matriz[i] = new int[Newdimension];
+    }
+
+    for (int i = 0; i < Newdimension; ++i) {
+        for (int j = 0; j < Newdimension; ++j) {
+            int fila_original = i % Newdimension;
+            int columna_original = j % Newdimension;
+            nueva_matriz[i][j] = matriz[fila_original][columna_original];
+        }
+    }
+
 }
 
 int main() {
