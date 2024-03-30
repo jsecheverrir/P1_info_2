@@ -95,13 +95,24 @@ int main() {
         return 1;
     }
 
-    
-    cout << "Ingrese la nueva dimension de la matriz: ";
-    cin >> nuevadimension;
+    int opcion;
+    cout << "1. Rotar la matriz."<<endl;
+    cout << "2. Redimensionar la matriz."<<endl;
+    cin >> opcion;
 
-    if (nuevadimension <= 0 || nuevadimension % 2 == 0) {
-        cout << "La nueva dimension debe ser un numero entero impar y positivo." << endl;
+    if (opcion != 1 && opcion != 2) {
+        cout << "Opción no válida." << endl;
         return 1;
+    }
+
+    if (opcion == 2) {
+        cout << "Ingrese la nueva dimension de la matriz: ";
+        cin >> nuevadimension;
+
+        if (nuevadimension <= 0 || nuevadimension % 2 == 0) {
+            cout << "La nueva dimension debe ser un numero entero impar y positivo." << endl;
+            return 1;
+        }
     }
 
     int** matriz = nullptr;
@@ -111,12 +122,15 @@ int main() {
     imprimirMatriz(matriz, dimension);
     cout << endl;
 
-    cout<<"Matriz rotada:"<<endl;
-    rotarMatriz(matriz, dimension);
-    cout<<endl;
-
-    cout<<"Matriz redimensionada:"<<endl;
-    redimensionarMatriz(matriz, nuevadimension, dimension);
+    if (opcion == 1) {
+        cout << "Matriz rotada:" << endl;
+        rotarMatriz(matriz, dimension);
+    } else if (opcion == 2) {
+        cout << "Matriz redimensionada:" << endl;
+        redimensionarMatriz(matriz, nuevadimension, dimension);
+        dimension = nuevadimension;
+    }
+    
     imprimirMatriz(matriz, nuevadimension);
     liberarMemoria(matriz, nuevadimension);
 
