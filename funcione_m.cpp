@@ -59,26 +59,29 @@ void liberarMemoria(int **matriz,int dimension){
     delete[] matriz;
 }
 
-void redimensionarMatriz(int **&matriz,int dimension,int Newdimension){
-    int **nueva_matriz = new int *[Newdimension];
-    for (int i = 0; i < Newdimension; ++i) {
-        nueva_matriz[i] = new int[Newdimension];
+void redimensionarMatriz(int **matriz, int nuevadimension, int viejadimension) {
+    int** nuevaMatriz = new int*[nuevadimension];
+    for (int i = 0; i < nuevadimension; ++i) {
+        nuevaMatriz[i] = new int[nuevadimension];
     }
 
-    for (int i = 0; i < Newdimension; ++i) {
-        for (int j = 0; j < Newdimension; ++j) {
-            int fila_original = i % Newdimension;
-            int columna_original = j % Newdimension;
-            nueva_matriz[i][j] = matriz[fila_original][columna_original];
+    for (int i = 0; i < viejadimension; ++i) {
+        for (int j = 0; j < viejadimension; ++j) {
+            if (i < nuevadimension && j < viejadimension) {
+                nuevaMatriz[i][j] = matriz[i][j];
+            }
         }
     }
+    liberarMemoria(matriz,viejadimension);
+
+    matriz = nuevaMatriz;
 
 }
-
 int main() {
-    int dimension;
+    int dimension,nuevadimension;
     cout << "Ingrese la dimension de la matriz cuadrada: ";
     cin >> dimension;
+    cin >> nuevadimension;
 
     if (dimension <= 0) {
         cout << "La dimension debe ser un numero entero positivo." << endl;
@@ -95,7 +98,7 @@ int main() {
     cout<<endl;
 
     rotarMatriz(matriz,dimension);
-
+    redimensionarMatriz(matriz,nuevadimension,dimension);
     liberarMemoria(matriz,dimension);
 
     return 0;
