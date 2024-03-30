@@ -2,14 +2,19 @@
 using namespace std;
 
 //Prototipos de funciones
-void crearMatriz(int** matriz, int dimension);
+void crearMatriz(int** &matriz, int dimension);
 void rotarMatriz(int** matriz, int dimension);
 void imprimirMatriz(int** matriz, int dimension);
 void liberarMemoria(int** matriz, int dimension);
-void redimensionarMatriz(int **matriz,int dimension,int Newdimension);
+void redimensionarMatriz(int **&matriz,int dimension,int Newdimension);
 
-void crearMatriz(int** matriz, int dimension) {
+//Definicion de funciones
+void crearMatriz(int** &matriz, int dimension) {
     int contador = 1;
+    matriz = new int*[dimension];
+    for (int i = 0; i < dimension; ++i) {
+        matriz[i] = new int[dimension];
+    }
     for (int i = 0; i < dimension; ++i) {
         for (int j = 0; j < dimension; ++j) {
             if (i == dimension / 2 && j == dimension / 2) {
@@ -59,7 +64,7 @@ void liberarMemoria(int **matriz,int dimension){
     delete[] matriz;
 }
 
-void redimensionarMatriz(int **matriz, int nuevadimension, int viejadimension) {
+void redimensionarMatriz(int **&matriz, int nuevadimension, int viejadimension) {
     int** nuevaMatriz = new int*[nuevadimension];
     for (int i = 0; i < nuevadimension; ++i) {
         nuevaMatriz[i] = new int[nuevadimension];
@@ -78,28 +83,39 @@ void redimensionarMatriz(int **matriz, int nuevadimension, int viejadimension) {
 
 }
 int main() {
-    int dimension,nuevadimension;
+    int dimension, nuevadimension;
     cout << "Ingrese la dimension de la matriz cuadrada: ";
     cin >> dimension;
-    cin >> nuevadimension;
 
-    if (dimension <= 0) {
-        cout << "La dimension debe ser un numero entero positivo." << endl;
+    if (dimension <= 0 || dimension % 2 == 0) {
+        cout << "La dimension debe ser un numero entero impar y positivo." << endl;
         return 1;
     }
 
-    int** matriz = new int*[dimension];
-    for (int i = 0; i < dimension; ++i) {
-        matriz[i] = new int[dimension];
+    
+    cout << "Ingrese la nueva dimension de la matriz: ";
+    cin >> nuevadimension;
+
+    if (nuevadimension <= 0 || nuevadimension % 2 == 0) {
+        cout << "La nueva dimension debe ser un numero entero impar y positivo." << endl;
+        return 1;
     }
 
-    crearMatriz(matriz,dimension);
-    imprimirMatriz(matriz,dimension);
+    int** matriz = nullptr;
+
+    cout<<"Matriz original:"<<endl;
+    crearMatriz(matriz, dimension);
+    imprimirMatriz(matriz, dimension);
+    cout << endl;
+
+    cout<<"Matriz rotada:"<<endl;
+    rotarMatriz(matriz, dimension);
     cout<<endl;
 
-    rotarMatriz(matriz,dimension);
-    redimensionarMatriz(matriz,nuevadimension,dimension);
-    liberarMemoria(matriz,dimension);
+    cout<<"Matriz redimensionada:"<<endl;
+    redimensionarMatriz(matriz, nuevadimension, dimension);
+    imprimirMatriz(matriz, nuevadimension);
+    liberarMemoria(matriz, nuevadimension);
 
     return 0;
 }
