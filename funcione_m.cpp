@@ -70,15 +70,18 @@ void redimensionarMatriz(int **&matriz, int nuevadimension, int viejadimension) 
         nuevaMatriz[i] = new int[nuevadimension];
     }
 
-    for (int i = 0; i < viejadimension; ++i) {
-        for (int j = 0; j < viejadimension; ++j) {
-            if (i < nuevadimension && j < viejadimension) {
-                nuevaMatriz[i][j] = matriz[i][j];
+    int contador = 1;
+    for (int i = 0; i < nuevadimension; ++i) {
+        for (int j = 0; j < nuevadimension; ++j) {
+            if (i == nuevadimension / 2 && j == nuevadimension / 2) {
+                nuevaMatriz[i][j] = 0;
+            } else {
+                nuevaMatriz[i][j] = contador++;
             }
         }
     }
-    liberarMemoria(matriz,viejadimension);
 
+    liberarMemoria(matriz,viejadimension);
     matriz = nuevaMatriz;
 
 }
