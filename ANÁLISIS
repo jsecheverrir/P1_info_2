@@ -1,0 +1,133 @@
+1a.
+-Análisis del problema
+
+-La empresa Informa2 necesita desarrollar un sistema de cerradura, denominado Cerradura X, 
+que consta de varias estructuras de matrices alineadas. Cada estructura puede tener un tamaño variable y debe ser capaz de rotar. 
+Para abrir la cerradura, se utiliza una regla de apertura K que especifica relaciones entre celdas de diferentes estructuras.
+		
+-Para plantear esta solución tenemos unos requisitos del sistema como la creación de las estructuras de datos, después poder rotar 
+las estructuras según lo requerido y teniendo en cuenta sus 4 estados. Debemos también saber configurar estas cerraduras con diferentes 
+combinaciones de estructuras alineadas, teniendo en cuenta sus posibles variaciones en cantidad y tamaño. Por otro lado la validación 
+de las reglas de apertura, lo que llamamos como K, aquí tener muy presente las relaciones entre celdas adyacentes y diferentes estructuras. 
+Y por último la generación de configuraciones de cerraduras, es decir, las matrices que deben ir alienadas para que un K especifico logre abrir esta cerradura. 
+	
+	
+*Consideraciones adicionales 
+-Eficiencia y rendimiento son críticos, especialmente al manipular grandes matrices.
+-La modularidad y reutilización del código son importantes para facilitar el mantenimiento y la extensibilidad del sistema.
+-Se debe proporcionar una interfaz clara y amigable para que los usuarios configuren y operen el algoritmo de manera sencilla 
+
+1b. 
+-Esquema donde describa las tareas que usted definió en el desarrollo de los algoritmos.
+
+-Función para crear matrices de tamaño variable: Diseñar una función que pueda crear matrices de tamaño variable. 
+  Esta función debe aceptar como parámetros el número de filas y columnas de la matriz y devolver la matriz creada.
+	
+-Función para redimensionar matrices: Desarrollar una función que permita redimensionar matrices existentes. 
+  Esta función debe aceptar como parámetros la matriz a redimensionar, así como el nuevo número de filas y columnas. 
+  Debe ser capaz de ajustar la matriz a la nueva dimensión, manteniendo los datos existentes si es posible.
+	
+-Función para realizar rotaciones: Implementar una función que pueda rotar una matriz en una dirección específica. 
+  Esta función puede aceptar como parámetros la matriz a rotar y el estado de rotación (1,2,3). 
+	
+-Función para imprimir matrices: Crear una función que pueda imprimir matrices en la consola o en algún otro formato de salida. 
+  Esta función debe aceptar la matriz como parámetro y mostrar sus elementos de manera legible.
+
+//Analisis de conceptos fundamentales:
+Estructura de datos M: Es una estructura que puede girar y cambiar de dimensiones. Puede verse como una matriz cuadrada de tamaño impar,
+con un número igual de filas y columnas.
+
+Cerradura X: Se forma al alinear varias estructuras M una tras otra, utilizando la celda central como referencia. No hay restricciones
+en la cantidad de estructuras M que se pueden alinear, y sus tamaños pueden ser diferentes.
+
+Sistema de apertura: La cerradura X se abre validando una regla K. Esta regla K especifica condiciones para las celdas en diferentes
+estructuras alineadas. Por ejemplo, una regla K puede indicar que el valor de una celda en una estructura debe ser mayor que el valor
+de la celda correspondiente en la siguiente estructura, y así sucesivamente.
+
+
+Validación de la regla K: Para abrir la cerradura, se deben girar las estructuras de manera independiente para alinear las celdas 
+de manera que la validación de la regla K sea verdadera. Esto implica ajustar la orientación de cada estructura para que las 
+condiciones especificadas por la regla K se cumplan.
+
+
+Para resumir, la cerradura X utiliza una estructura de datos flexible y un sistema de apertura basado en una regla K para proporcionar
+seguridad. La capacidad de girar y cambiar de tamaño de las estructuras M permite una mayor flexibilidad en el diseño de la cerradura y 
+en las condiciones de apertura.
+
+
+*Funciones a implementar 
+1. def crearMatriz()                       //manejo de matrices
+Entradas:
+Número de filas (filas)
+Número de columnas (columnas)
+Variables:
+Puntero a un arreglo bidimensional (matriz)
+Salida:
+Puntero a la matriz creada (matriz)
+
+2. def redimensionarMatriz()
+Entradas:
+Matriz a redimensionar (matriz)
+Número de filas deseado (nuevasFilas)
+Número de columnas deseado (nuevasColumnas)
+Variables internas:
+Nueva matriz redimensionada (nuevaMatriz)
+Salida:
+Matriz redimensionada (nuevaMatriz)
+
+3. rotarMatriz
+Entradas:
+Matriz a rotar (matriz)
+Estado de rotación (estado)
+Variables:
+Variables temporales para almacenar elementos durante la rotación
+Salida:
+Matriz rotada (matrizRotada)
+
+4. imprimirMatriz()
+Entradas:
+Matriz a imprimir (matriz)
+Variables:
+Variables para iterar sobre filas y columnas de la matriz
+Salida:
+
+
+//Debemos implementar algo para el manejo de todas estas matrices, puede ser un arreglo de matrices, un arreglo de arreglos
+
+
+5. validarClaveK()                  //verificación de claves
+Entrada:
+Clave K como cadena de caracteres (claveK)                  //verificar que k sean solo numeros empezando del 0 
+Cantidad de matrices en la cerradura X (cantidadMatrices)
+Salida:
+Valor booleano que indica si la clave K es válida (true) o no (false)
+
+
+6. verificarClaveK()                     //ver que k sea coherente con la cerradura que tenemos, por ejemplo longitud de las condiciones
+Entrada:                                 //que las condiciones de los numeros a evaluar de k sean coherentes con el numero de matrices
+Clave K como cadena de caracteres (claveK)  //que tenemos 
+Salida:
+Valor booleano que indica si el formato de la clave K es correcto (true) o no (false)
+
+
+7. verificarFilas_Columnas               //verificar que la fila y columna a evaluar exista en cada una de las matrices de la cerradura
+Entrada:
+Arreglo de números de fila y columna extraídos de la clave K (numerosFilasColumnas)
+Dimensiones de las matrices en la cerradura X (dimensionesMatrices)
+Salida:
+Valor booleano que indica si los números de fila y columna existen dentro de las matrices de la cerradura (true) o no (false)
+
+
+
+8.  validarReglas()
+
+
+
+
+
+
+
+
+
+
+
