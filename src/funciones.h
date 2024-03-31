@@ -21,6 +21,7 @@ void imprimirCerradura(int*** cerradura, int numMatrices, int* tamanos);
 
 bool validarClave();
 bool validarCoordenadas(int*** cerradura, int* tamanos, int numMatrices, int fila, int columna);
+bool validarClaveCerradura(int*** cerradura, int* tamanos, int numMatrices, int clave[]);
 
 
 
