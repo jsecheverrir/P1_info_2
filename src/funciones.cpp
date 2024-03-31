@@ -112,16 +112,43 @@ void liberarCerradura(int*** cerradura, int numMatrices, int* tamanos) {
     delete[] cerradura;
 }
 
-bool validarLlave(char llave[], int longitud) {
-    for (int i = 0; i < longitud; ++i) {
-        char caracter = llave[i];
-        if (caracter < '0' || caracter > '9') {
-            return false; // Si no es un dígito, la llave no es válida
+bool validarClave() {
+    char caracter;
+    bool espacioAnterior = false; // Para verificar que no haya espacios consecutivos
+    bool numeroPrevio = false;    // Para verificar que haya al menos un número
+
+    cout << "Ingrese una clave separada por espacios, use solo numeros: ";
+
+    while (std::cin.get(caracter) && caracter != '\n') {
+        if (caracter == ' ') {
+            if (!numeroPrevio) {
+                std::cin.ignore(10000, '\n'); // Ignorar hasta nueva línea
+                return false; // No hay un número antes de un espacio
+            }
+            espacioAnterior = true;
+        } else if (caracter >= '0' && caracter <= '9') {
+            numeroPrevio = true;
+            espacioAnterior = false;
+        } else {
+            std::cin.ignore(10000, '\n'); // Ignorar hasta nueva línea
+            return false; // Carácter no válido
         }
     }
-    // Si llegamos aquí, todos los caracteres son dígitos y la llave es válida
+
+    return numeroPrevio && !espacioAnterior; // No debe haber un espacio al final
+}
+
+bool validarCoordenadas(int*** cerradura, int* tamanos, int numMatrices, int fila, int columna) {
+    for (int i = 0; i < numMatrices; ++i) {
+        if (fila < 1 || fila > tamanos[i] || columna < 1 || columna > tamanos[i]) {
+            cout << "Error: La celda indicada (" << fila << ", " << columna << ") no existe en toda la cerradura." << endl;
+            return false;
+        }
+    }
     return true;
 }
+
+
 
 
 

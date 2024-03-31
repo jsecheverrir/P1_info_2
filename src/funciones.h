@@ -16,9 +16,11 @@ int*** crearCerradura(int* tamanos, int numMatrices);
 void liberarCerradura(int*** cerradura, int numMatrices, int* tamanos);
 void imprimirCerradura(int*** cerradura, int numMatrices, int* tamanos);
 
+
 //Manejo llaves
 
-bool validarLlave(char llave[], int longitud);
+bool validarClave();
+bool validarCoordenadas(int*** cerradura, int* tamanos, int numMatrices, int fila, int columna);
 
 
 

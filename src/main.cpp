@@ -4,20 +4,40 @@ using namespace std;
 
 
 int main() {
-    const int longitudMaxima = 100;
-    char llave[longitudMaxima];
+    // Pedimos al usuario que ingrese los tamaños de las matrices de la cerradura
+    cout << "Ingrese el número de matrices en la cerradura: ";
+    int numMatrices;
+    cin >> numMatrices;
 
-    cout << "Ingrese la llave (solo números, sin espacios): ";
-    cin >> llave;
-
-    // Validar la llave
-    if (validarLlave(llave, longitudMaxima)) {
-        cout << "Llave ingresada correctamente.\n";
-    } else {
-        cout << "Error: La llave solo debe contener números.\n";
-        return 1;
+    int* tamanos = new int[numMatrices];
+    for (int i = 0; i < numMatrices; ++i) {
+        cout << "Ingrese el tamaño de la matriz " << i + 1 << ": ";
+        cin >> tamanos[i];
     }
 
+    // Creamos la cerradura
+    int*** cerradura = crearCerradura(tamanos, numMatrices);
+
+    // Imprimimos la cerradura
+    cout << "Cerradura creada:" << endl;
+    imprimirCerradura(cerradura, numMatrices, tamanos);
+
+    // Pedimos al usuario que ingrese la clave
+    cout << "Ingrese la clave separada por espacios (fila columna valor): ";
+    int fila, columna;
+    cin >> fila >> columna;
+
+    // Validamos las coordenadas ingresadas
+    if (!validarCoordenadas(cerradura, tamanos, numMatrices, fila, columna)) {
+        liberarCerradura(cerradura, numMatrices, tamanos);
+        delete[] tamanos;
+        return 1; // Salir del programa con código de error
+    }
+
+    // Liberamos la memoria de la cerradura y finalizamos el programa
+    liberarCerradura(cerradura, numMatrices, tamanos);
+    delete[] tamanos;
+    cout << "La celda indicada existe en toda la cerradura." << endl;
     return 0;
 }
 /*
