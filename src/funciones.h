@@ -20,7 +20,10 @@ void imprimirCerradura(int*** cerradura, int numMatrices, int* tamanos);
 //Manejo llaves
 
 bool validarClave();
+
+//Abrir cerraduras
 bool validarCoordenadas(int*** cerradura, int* tamanos, int numMatrices, int fila, int columna);
+bool verificarReglas(int*** cerradura, int fila, int columna, int clave[], int numMatrices);
 bool validarClaveCerradura(int*** cerradura, int* tamanos, int numMatrices, int clave[]);
 
 

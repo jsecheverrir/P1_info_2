@@ -146,13 +146,46 @@ bool validarCoordenadas(int*** cerradura, int* tamanos, int numMatrices, int fil
     return true;
 }
 
+bool verificarReglas(int*** cerradura, int fila, int columna, int clave[], int numMatrices) {
+    int condicion1 = clave[2];
+    int condicion2 = clave[3];
+
+    int valorActual = cerradura[0][fila - 1][columna - 1];
+    int valorSiguiente = cerradura[1][fila - 1][columna - 1];
+    int valorSiguiente2 = cerradura[2][fila - 1][columna - 1];
+
+    if (condicion1 == 1 && valorActual <= valorSiguiente) {
+        return false;
+    }
+    if (condicion1 == 0 && valorActual != valorSiguiente) {
+        return false;
+    }
+    if (condicion1 == -1 && valorActual >= valorSiguiente) {
+        return false;
+    }
+
+    if (condicion2 == 1 && valorSiguiente <= valorSiguiente2) {
+        return false;
+    }
+    if (condicion2 == 0 && valorSiguiente != valorSiguiente2) {
+        return false;
+    }
+    if (condicion2 == -1 && valorSiguiente >= valorSiguiente2) {
+        return false;
+    }
+
+    return true;
+}
+
+
+
 bool validarClaveCerradura(int*** cerradura, int* tamanos, int numMatrices, int clave[]) {
     int fila = clave[0];
     int columna = clave[1];
 
     // Verificar si la fila y la columna están dentro de los límites de la cerradura
     if (!validarCoordenadas(cerradura, tamanos, numMatrices, fila, columna)) {
-        cout << "Error: Las coordenadas de la clave están fuera de los límites de la cerradura." << endl;
+        cout << "Las coordenadas de la clave estan fuera de los limites de la cerradura." << endl;
         return false;
     }
 
@@ -172,10 +205,8 @@ bool validarClaveCerradura(int*** cerradura, int* tamanos, int numMatrices, int 
     cout << endl;
 
     // Verificar las reglas con las matrices neutras
-    if (cerradura[0][fila - 1][columna - 1] > cerradura[1][fila - 1][columna - 1] &&
-        cerradura[1][fila - 1][columna - 1] < cerradura[2][fila - 1][columna - 1] &&
-        cerradura[2][fila - 1][columna - 1] > cerradura[3][fila - 1][columna - 1]) {
-        cout << "Clave válida sin necesidad de rotar." << endl;
+    if (verificarReglas(cerradura, fila, columna, clave, numMatrices)) {
+        cout << "Clave valida sin necesidad de rotar." << endl;
         return true; // Clave válida sin necesidad de rotar
     }
 
@@ -189,7 +220,7 @@ bool validarClaveCerradura(int*** cerradura, int* tamanos, int numMatrices, int 
                 cout << "Matrices " << i + 1 << " y " << j + 1 << " rotadas " << k + 1 << " veces." << endl;
 
                 // Imprimir las matrices rotadas
-                cout << "Cerradura después de rotación:" << endl;
+                cout << "Cerradura despues de rotacion:" << endl;
                 for (int l = 0; l < numMatrices; ++l) {
                     cout << "Matriz " << l + 1 << ":" << endl;
                     imprimirMatriz(cerradura[l], tamanos[l]);
@@ -204,10 +235,8 @@ bool validarClaveCerradura(int*** cerradura, int* tamanos, int numMatrices, int 
                 cout << endl;
 
                 // Verificar las reglas con las matrices rotadas
-                if (cerradura[0][fila - 1][columna - 1] > cerradura[1][fila - 1][columna - 1] &&
-                    cerradura[1][fila - 1][columna - 1] < cerradura[2][fila - 1][columna - 1] &&
-                    cerradura[2][fila - 1][columna - 1] > cerradura[3][fila - 1][columna - 1]) {
-                    cout << "Clave válida después de una rotación." << endl;
+                if (verificarReglas(cerradura, fila, columna, clave, numMatrices)) {
+                    cout << "Clave valida después de una rotacion." << endl;
                     return true; // Clave válida después de una rotación
                 }
             }
