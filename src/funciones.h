@@ -15,25 +15,17 @@ void imprimirMatriz(int** matriz, int dimension);
 void liberarMemoria(int** matriz, int dimension);
 void redimensionarMatriz(int **&matriz,int dimension,int Newdimension);
 
-//Manejo cerraduras
+//Clave
+bool validarEntrada(char entrada[]);
+void extraerFilaColumna(char clave[], int& fila, int& columna);
+bool verificarCondiciones(char clave[]);
+int obtenerDimension(char clave[]);
+int ajustarDimension(int dimension);
 
-int*** crearCerradura(int* tamanos, int numMatrices);
-void liberarCerradura(int*** cerradura, int numMatrices, int* tamanos);
-void imprimirCerradura(int*** cerradura, int numMatrices, int* tamanos);
-
-
-//Manejo llaves
-
-bool validarClave(int clave[], int numElementos);
-
-//Abrir cerraduras
-bool validarCoordenadas( int* tamanos, int numMatrices, int fila, int columna);
-bool verificarReglas(int*** cerradura, int fila, int columna, int clave[]);
-bool validarClaveCerradura(int*** cerradura, int* tamanos, int numMatrices, int clave[]);
-
-//desafio 1
-void generarCerradura();
-
+//Cerraduras
+int obtenerNumeroMatrices(char clave[]);
+int*** crearCerradura(int cantidadMatrices, int dimension);
+bool abrirCerradura(int*** cerradura, int numMatrices, int dimension, char clave[]);
 
 
 

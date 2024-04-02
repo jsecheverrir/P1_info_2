@@ -5,6 +5,9 @@ using namespace std;
 
 
 void crearMatriz(int** &matriz, int dimension) {
+    // Ajustar la dimensión si es par
+    if (dimension % 2 == 0)
+        dimension++;
     int contador = 1;
     matriz = new int*[dimension];
     for (int i = 0; i < dimension; ++i) {
@@ -81,213 +84,108 @@ void redimensionarMatriz(int **&matriz, int nuevadimension, int viejadimension) 
 
 }
 
-int*** crearCerradura(int* tamanos, int numMatrices) {
-    int*** cerradura = new int**[numMatrices];
-
-    for (int i = 0; i < numMatrices; ++i) {
-        int dimension = tamanos[i];
-        crearMatriz(cerradura[i], dimension);
-    }
-
-    return cerradura;
-}
-
-void imprimirCerradura(int*** cerradura, int numMatrices, int* tamanos) {
-    for (int i = 0; i < numMatrices; ++i) {
-        cout << "Matriz " << i+1 << ":" << endl;
-        imprimirMatriz(cerradura[i], tamanos[i]);
-        cout << endl;
-    }
-}
-
-void liberarCerradura(int*** cerradura, int numMatrices, int* tamanos) {
-    for (int i = 0; i < numMatrices; ++i) {
-        int dimension = tamanos[i];
-        for (int j = 0; j < dimension; ++j) {
-            delete[] cerradura[i][j];
-        }
-        delete[] cerradura[i];
-    }
-    delete[] cerradura;
-}
-
-bool validarClave() {
-    char caracter;
-    bool espacioAnterior = false; // Para verificar que no haya espacios consecutivos
-    bool numeroPrevio = false;    // Para verificar que haya al menos un número
-
-    cout << "Ingrese una clave separada por espacios, use solo numeros: ";
-
-    while (cin.get(caracter) && caracter != '\n') {
-        if (caracter == ' ') {
-            if (!numeroPrevio) {
-                cin.ignore(10000, '\n'); // Ignorar hasta nueva línea
-                return false; // No hay un número antes de un espacio
-            }
-            espacioAnterior = true;
-        } else if (caracter >= '0' && caracter <= '9') {
-            numeroPrevio = true;
-            espacioAnterior = false;
-        } else {
-            cin.ignore(10000, '\n'); // Ignorar hasta nueva línea
-            return false; // Carácter no válido
-        }
-    }
-
-    return numeroPrevio && !espacioAnterior; // No debe haber un espacio al final
-}
-
-bool validarCoordenadas(int*** cerradura, int* tamanos, int numMatrices, int fila, int columna) {
-    for (int i = 0; i < numMatrices; ++i) {
-        if (fila < 1 || fila > tamanos[i] || columna < 1 || columna > tamanos[i]) {
-            cout << "Error: La celda indicada (" << fila << ", " << columna << ") no existe en toda la cerradura." << endl;
+bool validarEntrada(char entrada[]) {
+    // Verificar si los caracteres son dígitos o espacios
+    for (int i = 0; entrada[i] != '\0'; ++i) {
+        if (!(entrada[i] >= '0' && entrada[i] <= '9') && entrada[i] != ' ') {
+            cout << "Error: Entrada no válida." << endl;
             return false;
         }
     }
     return true;
 }
 
-bool verificarReglas(int*** cerradura, int fila, int columna, int clave[], int numMatrices) {
-    int condicion1 = clave[2];
-    int condicion2 = clave[3];
 
-    int valorActual = cerradura[0][fila - 1][columna - 1];
-    int valorSiguiente = cerradura[1][fila - 1][columna - 1];
-    int valorSiguiente2 = cerradura[2][fila - 1][columna - 1];
 
-    if (condicion1 == 1 && valorActual <= valorSiguiente) {
-        return false;
-    }
-    if (condicion1 == 0 && valorActual != valorSiguiente) {
-        return false;
-    }
-    if (condicion1 == -1 && valorActual >= valorSiguiente) {
-        return false;
-    }
+void extraerFilaColumna(char clave[], int& fila, int& columna) {
+    // Extraer fila y columna a evaluar
+    fila = clave[0] - '0';
+    columna = clave[1] - '0';
+}
 
-    if (condicion2 == 1 && valorSiguiente <= valorSiguiente2) {
-        return false;
+bool verificarCondiciones(char clave[]) {
+    int i = 3; // Comenzamos desde el tercer carácter
+    while (clave[i] != '\0') {
+        if (clave[i] != '1' && clave[i] != '0' && clave[i] != '-') {
+            cout << "Error: Los valores de condición deben ser 1, 0 o -1." << endl;
+            return false;
+        }
+        i++;
     }
-    if (condicion2 == 0 && valorSiguiente != valorSiguiente2) {
-        return false;
-    }
-    if (condicion2 == -1 && valorSiguiente >= valorSiguiente2) {
-        return false;
-    }
-
     return true;
 }
 
-
-
-bool validarClaveCerradura(int*** cerradura, int* tamanos, int numMatrices, int clave[]) {
-    int fila = clave[0];
-    int columna = clave[1];
-
-    // Verificar si la fila y la columna están dentro de los límites de la cerradura
-    if (!validarCoordenadas(cerradura, tamanos, numMatrices, fila, columna)) {
-        cout << "Las coordenadas de la clave estan fuera de los limites de la cerradura." << endl;
-        return false;
-    }
-
-    // Imprimir la cerradura inicial
-    cout << "Cerradura inicial:" << endl;
-    for (int i = 0; i < numMatrices; ++i) {
-        cout << "Matriz " << i + 1 << ":" << endl;
-        imprimirMatriz(cerradura[i], tamanos[i]);
-        cout << endl;
-    }
-
-    // Imprimir las celdas evaluadas
-    cout << "Celdas evaluadas: ";
-    for (int i = 0; i < numMatrices; ++i) {
-        cout << cerradura[i][fila - 1][columna - 1] << " ";
-    }
-    cout << endl;
-
-    // Verificar las reglas con las matrices neutras
-    if (verificarReglas(cerradura, fila, columna, clave, numMatrices)) {
-        cout << "Clave valida sin necesidad de rotar." << endl;
-        return true; // Clave válida sin necesidad de rotar
-    }
-
-    // Aplicar hasta tres rotaciones para cada par de matrices antes de verificar las reglas nuevamente
-    for (int i = 0; i < numMatrices; ++i) {
-        for (int j = i + 1; j < numMatrices; ++j) {
-            for (int k = 0; k < 3; ++k) {
-                rotarMatriz(cerradura[i], tamanos[i]);
-                rotarMatriz(cerradura[j], tamanos[j]);
-
-                cout << "Matrices " << i + 1 << " y " << j + 1 << " rotadas " << k + 1 << " veces." << endl;
-
-                // Imprimir las matrices rotadas
-                cout << "Cerradura despues de rotacion:" << endl;
-                for (int l = 0; l < numMatrices; ++l) {
-                    cout << "Matriz " << l + 1 << ":" << endl;
-                    imprimirMatriz(cerradura[l], tamanos[l]);
-                    cout << endl;
-                }
-
-                // Imprimir las celdas evaluadas después de la rotación
-                cout << "Celdas evaluadas: ";
-                for (int m = 0; m < numMatrices; ++m) {
-                    cout << cerradura[m][fila - 1][columna - 1] << " ";
-                }
-                cout << endl;
-
-                // Verificar las reglas con las matrices rotadas
-                if (verificarReglas(cerradura, fila, columna, clave, numMatrices)) {
-                    cout << "Clave valida después de una rotacion." << endl;
-                    return true; // Clave válida después de una rotación
-                }
-            }
-        }
-    }
-
-    cout << "La clave no abre la cerradura." << endl;
-    return false; // Clave inválida después de tres rotaciones para cada par de matrices
+int obtenerDimension(char clave[]) {
+    int fila = clave[0] - '0';
+    int columna = clave[1] - '0';
+    return (fila > columna) ? fila : columna; // Elegimos el mayor como la dimensión
 }
 
-void generarCerradura() {
-    int clave[100]; // Definimos un arreglo grande para la clave
-    int numElementos = 0;
+int ajustarDimension(int dimension) {
+    if (dimension % 2 == 0)
+        dimension++; // Ajustar la dimensión si es par
+    return dimension;
+}
 
-    // Ingresar la clave separada por espacios
-    cout << "Ingrese la clave en el siguiente formato, donde x son numeros, seguidos de una O mayuscula, esta sin espacio (X X X X....O): ";
-    while (cin >> clave[numElementos]) {
-        numElementos++;
+int obtenerNumeroMatrices(char clave[]) {
+    int contador = 0;
+    for (int i = 0; clave[i] != '\0'; ++i) {
+        if (clave[i] != ' ') {
+            contador++;
+        }
+    }
+    return contador - 1;
+}
+
+// Función para crear la cerradura
+int*** crearCerradura(int cantidadMatrices, int dimension) {
+    int*** cerradura = new int**[cantidadMatrices];
+    for (int i = 0; i < cantidadMatrices; ++i) {
+        cerradura[i] = new int*[dimension];
+        crearMatriz(cerradura[i], dimension); // Crear matriz usando la función existente
+    }
+    return cerradura;
+}
+
+bool abrirCerradura(int*** cerradura, int numMatrices, int dimension, char clave[]) {
+    // Calcular la longitud de la clave
+    int numCondiciones = 0;
+    while (clave[numCondiciones + 2] != '\0') {
+        numCondiciones++;
     }
 
-    // Calcular el número de matrices en la cerradura
-    int numMatrices = (numElementos - 1);
-    cout << "Numero de matrices en la cerradura: " << numMatrices << endl;
+    // Obtener las condiciones de la clave
+    int* condiciones = new int[numCondiciones];
+    for (int i = 0; i < numCondiciones; ++i) {
+        condiciones[i] = clave[i + 2] - '0';
+    }
 
-    // Obtener los tamaños de las matrices a partir de los dos primeros elementos de la clave
-    int* tamanos = new int[numElementos - 1];
-    for (int i = 0; i < numElementos - 1; ++i) {
-        tamanos[i] = clave[i];
-        // Ajustar la dimensión de la matriz si alguno de los dos primeros números es par
-        if (i < 2 && clave[i] % 2 == 0) {
-            tamanos[i]++;
+    // Extraer fila y columna a evaluar
+    int fila, columna;
+    extraerFilaColumna(clave, fila, columna);
+
+    // Ajustar las coordenadas para reflejar el índice de la matriz (comienza desde 0)
+    fila -= 1;
+    columna -= 1;
+
+    // Iterar sobre cada celda de cada matriz
+    for (int k = 0; k < numMatrices - 1; ++k) {
+        int valorActual = cerradura[k][fila][columna]; // Utilizar las coordenadas ajustadas
+        int valorSiguiente = cerradura[k + 1][fila][columna]; // Utilizar las coordenadas ajustadas
+        int condicion = condiciones[k];
+        cout << "Celda (" << fila+1 << ", " << columna+1 << ") en la matriz " << k+ 1 << ": " << valorActual << endl;
+        cout << "Celda (" << fila+1 << ", " << columna+1 << ") en la matriz " << k + 2 << ": " << valorSiguiente << endl;
+        cout << "Condicion para esta comparacion: " << condicion << endl;
+        if ((condicion == 1 && valorActual <= valorSiguiente) ||
+            (condicion == 0 && valorActual != valorSiguiente) ||
+            (condicion == -1 && valorActual >= valorSiguiente)) {
+            cout << "Las condiciones no se cumplen." << endl;
+            delete[] condiciones;
+            return false; // Las condiciones no se cumplen
         }
     }
 
-    // Generar la cerradura utilizando los tamaños obtenidos y la función crearCerradura
-    int*** cerradura = crearCerradura(tamanos, numMatrices);
-
-    // Liberar la memoria utilizada por los tamaños de las matrices
-    delete[] tamanos;
-
-    // Imprimir las matrices de la cerradura
-    for (int i = 0; i < numMatrices; ++i) {
-        cout << "Matriz " << i + 1 << ":" << endl;
-        imprimirMatriz(cerradura[i], clave[i]);
-        cout << endl;
-    }
-
-    // Liberar la memoria utilizada por la cerradura
-    for (int i = 0; i < numMatrices; ++i) {
-        liberarMemoria(cerradura[i], clave[i]);
-    }
-    delete[] cerradura;
+    delete[] condiciones;
+    cout << "Todas las condiciones se cumplen, la cerradura se abre." << endl;
+    return true; // Todas las condiciones se cumplen, la cerradura se abre
 }
