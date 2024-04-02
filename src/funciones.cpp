@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 void crearMatriz(int** &matriz, int dimension) {
     int contador = 1;
     matriz = new int*[dimension];
@@ -245,4 +246,48 @@ bool validarClaveCerradura(int*** cerradura, int* tamanos, int numMatrices, int 
 
     cout << "La clave no abre la cerradura." << endl;
     return false; // Clave inválida después de tres rotaciones para cada par de matrices
+}
+
+void generarCerradura() {
+    int clave[100]; // Definimos un arreglo grande para la clave
+    int numElementos = 0;
+
+    // Ingresar la clave separada por espacios
+    cout << "Ingrese la clave en el siguiente formato, donde x son numeros, seguidos de una O mayuscula, esta sin espacio (X X X X....O): ";
+    while (cin >> clave[numElementos]) {
+        numElementos++;
+    }
+
+    // Calcular el número de matrices en la cerradura
+    int numMatrices = (numElementos - 1);
+    cout << "Numero de matrices en la cerradura: " << numMatrices << endl;
+
+    // Obtener los tamaños de las matrices a partir de los dos primeros elementos de la clave
+    int* tamanos = new int[numElementos - 1];
+    for (int i = 0; i < numElementos - 1; ++i) {
+        tamanos[i] = clave[i];
+        // Ajustar la dimensión de la matriz si alguno de los dos primeros números es par
+        if (i < 2 && clave[i] % 2 == 0) {
+            tamanos[i]++;
+        }
+    }
+
+    // Generar la cerradura utilizando los tamaños obtenidos y la función crearCerradura
+    int*** cerradura = crearCerradura(tamanos, numMatrices);
+
+    // Liberar la memoria utilizada por los tamaños de las matrices
+    delete[] tamanos;
+
+    // Imprimir las matrices de la cerradura
+    for (int i = 0; i < numMatrices; ++i) {
+        cout << "Matriz " << i + 1 << ":" << endl;
+        imprimirMatriz(cerradura[i], clave[i]);
+        cout << endl;
+    }
+
+    // Liberar la memoria utilizada por la cerradura
+    for (int i = 0; i < numMatrices; ++i) {
+        liberarMemoria(cerradura[i], clave[i]);
+    }
+    delete[] cerradura;
 }
