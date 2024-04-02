@@ -5,6 +5,8 @@ using namespace std;
 
 
 void crearMatriz(int** &matriz, int dimension) {
+
+
     // Ajustar la dimensión si es par
     if (dimension % 2 == 0)
         dimension++;
@@ -87,7 +89,7 @@ void redimensionarMatriz(int **&matriz, int nuevadimension, int viejadimension) 
 bool validarEntrada(char entrada[]) {
     // Verificar si los caracteres son dígitos o espacios
     for (int i = 0; entrada[i] != '\0'; ++i) {
-        if (!(entrada[i] >= '0' && entrada[i] <= '9') && entrada[i] != ' ') {
+        if (!(entrada[i] >= '0' && entrada[i] <= '9') && entrada[i] != ' ' && entrada[i] != '-') {
             cout << "Error: Entrada no válida." << endl;
             return false;
         }
@@ -130,7 +132,7 @@ int ajustarDimension(int dimension) {
 int obtenerNumeroMatrices(char clave[]) {
     int contador = 0;
     for (int i = 0; clave[i] != '\0'; ++i) {
-        if (clave[i] != ' ') {
+       if (clave[i] != ' ' && clave[i] != '-') {
             contador++;
         }
     }
@@ -148,27 +150,30 @@ int*** crearCerradura(int cantidadMatrices, int dimension) {
 }
 
 bool abrirCerradura(int*** cerradura, int numMatrices, int dimension, char clave[]) {
-    // Calcular la longitud de la clave
+
     int numCondiciones = 0;
-    while (clave[numCondiciones + 2] != '\0') {
+    while (clave[numCondiciones + 2] != '\0') { // Calcular la longitud de la clave
         numCondiciones++;
     }
 
-    // Obtener las condiciones de la clave
-    int* condiciones = new int[numCondiciones];
+
+    int* condiciones = new int[numCondiciones];// Obtener las condiciones de la clave
     for (int i = 0; i < numCondiciones; ++i) {
-        condiciones[i] = clave[i + 2] - '0';
+        if (clave[i + 2] == '-') {
+            condiciones[i] = -1;
+        } else {
+            condiciones[i] = clave[i + 2] - '0';
+        }
     }
 
-    // Extraer fila y columna a evaluar
-    int fila, columna;
+
+    int fila, columna; // Extraer fila y columna a evaluar
     extraerFilaColumna(clave, fila, columna);
 
-    // Ajustar las coordenadas para reflejar el índice de la matriz (comienza desde 0)
-    fila -= 1;
+
+    fila -= 1; // Ajustar las coordenadas para reflejar el índice de la matriz
     columna -= 1;
 
-    // Iterar sobre cada celda de cada matriz
     for (int k = 0; k < numMatrices - 1; ++k) {
         int valorActual = cerradura[k][fila][columna]; // Utilizar las coordenadas ajustadas
         int valorSiguiente = cerradura[k + 1][fila][columna]; // Utilizar las coordenadas ajustadas
@@ -180,12 +185,37 @@ bool abrirCerradura(int*** cerradura, int numMatrices, int dimension, char clave
             (condicion == 0 && valorActual != valorSiguiente) ||
             (condicion == -1 && valorActual >= valorSiguiente)) {
             cout << "Las condiciones no se cumplen." << endl;
+
+
+            //aqui esta el problema, no se donde
+
+            if (condicion == 1) { // Si la condición es 1, redimensionar la matriz actual
+                redimensionarMatriz(cerradura[k], dimension + 2, dimension);
+                cout << "Matriz " << k + 1 << " redimensionada." << endl;
+                // Volver a imprimir la matriz redimensionada
+                cout << "Matriz " << k + 1 << " redimensionada:" << endl;
+                imprimirMatriz(cerradura[k], dimension + 2);
+                cout << endl;
+                // Volver a evaluar las condiciones con la nueva dimensión
+                return abrirCerradura(cerradura, numMatrices, dimension + 2, clave);
+            }
+            // Si la condición es -1, redimensionar la siguiente matriz en la secuencia
+            else if (condicion == -1) {
+                redimensionarMatriz(cerradura[k + 1], dimension + 2, dimension);
+                cout << "Matriz " << k + 2 << " redimensionada." << endl;
+                // Volver a imprimir la matriz redimensionada
+                cout << "Matriz " << k + 2 << " redimensionada:" << endl;
+                imprimirMatriz(cerradura[k + 1], dimension + 2);
+                cout << endl;
+                // Volver a evaluar las condiciones con la nueva dimensión
+                return abrirCerradura(cerradura, numMatrices, dimension + 2, clave);
+            }
             delete[] condiciones;
             return false; // Las condiciones no se cumplen
         }
     }
-
+    // Si se cumplen todas las condiciones, la cerradura se abre
     delete[] condiciones;
     cout << "Todas las condiciones se cumplen, la cerradura se abre." << endl;
-    return true; // Todas las condiciones se cumplen, la cerradura se abre
+    return true;
 }
