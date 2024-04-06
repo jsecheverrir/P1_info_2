@@ -17,15 +17,17 @@ void redimensionarMatriz(int **&matriz,int dimension,int Newdimension);
 
 //Clave
 bool validarEntrada(char entrada[]);
-void extraerFilaColumna(char clave[], int& fila, int& columna);
-bool verificarCondiciones(char clave[]);
-int obtenerDimension(char clave[]);
-int ajustarDimension(int dimension);
+
+
+
+
 
 //Cerraduras
 int obtenerNumeroMatrices(char clave[]);
-int*** crearCerradura(int cantidadMatrices, int dimension);
-bool abrirCerradura(int*** cerradura, int numMatrices, int dimension, char clave[]);
+int*** crearCerradura(int cantidadMatrices, int dimensiones[]);
+void encontrarCeldaCorrespondiente(int*** cerradura, int cantidadMatrices, int* dimensiones, int fila, int columna);
+
+
 
 
 

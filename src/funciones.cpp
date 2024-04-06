@@ -85,7 +85,7 @@ void redimensionarMatriz(int **&matriz, int nuevadimension, int viejadimension) 
     matriz = nuevaMatriz;
 
 }
-
+/*
 bool validarEntrada(char entrada[]) {
     // Verificar si los caracteres son dígitos o espacios
     for (int i = 0; entrada[i] != '\0'; ++i) {
@@ -98,37 +98,6 @@ bool validarEntrada(char entrada[]) {
 }
 
 
-
-void extraerFilaColumna(char clave[], int& fila, int& columna) {
-    // Extraer fila y columna a evaluar
-    fila = clave[0] - '0';
-    columna = clave[1] - '0';
-}
-
-bool verificarCondiciones(char clave[]) {
-    int i = 3; // Comenzamos desde el tercer carácter
-    while (clave[i] != '\0') {
-        if (clave[i] != '1' && clave[i] != '0' && clave[i] != '-') {
-            cout << "Error: Los valores de condición deben ser 1, 0 o -1." << endl;
-            return false;
-        }
-        i++;
-    }
-    return true;
-}
-
-int obtenerDimension(char clave[]) {
-    int fila = clave[0] - '0';
-    int columna = clave[1] - '0';
-    return (fila > columna) ? fila : columna; // Elegimos el mayor como la dimensión
-}
-
-int ajustarDimension(int dimension) {
-    if (dimension % 2 == 0)
-        dimension++; // Ajustar la dimensión si es par
-    return dimension;
-}
-
 int obtenerNumeroMatrices(char clave[]) {
     int contador = 0;
     for (int i = 0; clave[i] != '\0'; ++i) {
@@ -138,84 +107,57 @@ int obtenerNumeroMatrices(char clave[]) {
     }
     return contador - 1;
 }
+*/
 
-// Función para crear la cerradura
-int*** crearCerradura(int cantidadMatrices, int dimension) {
-    int*** cerradura = new int**[cantidadMatrices];
+int*** crearCerradura(int cantidadMatrices, int dimensiones[]) {
+    int*** cerradura = new int**[cantidadMatrices]; // Creamos un arreglo de punteros a punteros de enteros para almacenar las matrices
+
+    // Para cada matriz en la cerradura
     for (int i = 0; i < cantidadMatrices; ++i) {
-        cerradura[i] = new int*[dimension];
-        crearMatriz(cerradura[i], dimension); // Crear matriz usando la función existente
+        // Creamos una matriz con la dimensión especificada
+        crearMatriz(cerradura[i], dimensiones[i]);
     }
-    return cerradura;
+
+    return cerradura; // Devolvemos el arreglo de matrices
 }
 
-bool abrirCerradura(int*** cerradura, int numMatrices, int dimension, char clave[]) {
-
-    int numCondiciones = 0;
-    while (clave[numCondiciones + 2] != '\0') { // Calcular la longitud de la clave
-        numCondiciones++;
+void encontrarCeldaCorrespondiente(int*** cerradura, int cantidadMatrices, int* dimensiones, int fila, int columna) {
+    // Verificar que la fila y columna ingresadas estén dentro de los límites de cada matriz
+    for (int i = 0; i < cantidadMatrices; ++i) {
+        if (fila < 0 || fila >= dimensiones[i]+1 || columna < 0 || columna >= dimensiones[i]+1) {
+            cout << "La fila o columna ingresada está fuera de los límites de la matriz " << (i + 1) << "." << endl;
+            return;
+        }
     }
 
+    // Obtener el valor de referencia en la primera matriz
+    int valorReferencia = cerradura[0][fila-1][columna-1];
+    cout << "El valor de la celda correspondiente en la primera matriz es: " << valorReferencia << endl;
 
-    int* condiciones = new int[numCondiciones];// Obtener las condiciones de la clave
-    for (int i = 0; i < numCondiciones; ++i) {
-        if (clave[i + 2] == '-') {
-            condiciones[i] = -1;
+    // Verificar si todas las matrices tienen la misma dimensión
+    bool todasMismaDimension = true;
+    for (int i = 1; i < cantidadMatrices; ++i) {
+        if (dimensiones[i] != dimensiones[0]) {
+            todasMismaDimension = false;
+            break;
+        }
+    }
+
+    // Encontrar la celda correspondiente en las matrices restantes de la cerradura
+    for (int i = 1; i < cantidadMatrices; ++i) {
+        if (todasMismaDimension) {
+            // Verificar que las dimensiones de la matriz actual sean mayores o iguales que la fila y columna
+            if (fila >= dimensiones[i]+1 || columna >= dimensiones[i]+1) {
+                cout << "No se puede encontrar la celda correspondiente en la matriz " << (i + 1) << " porque la fila o columna están fuera de los límites." << endl;
+                continue;
+            }
+            // Obtener el valor en la posición correspondiente en la matriz actual
+            int valorCorrespondiente = cerradura[i][fila-1][columna-1];
+            cout << "El valor de la celda correspondiente en la matriz " << (i + 1) << " es: " << valorCorrespondiente << endl;
         } else {
-            condiciones[i] = clave[i + 2] - '0';
+            // Obtener el valor en la posición correspondiente en la matriz actual sin ajustar fila y columna
+            int valorCorrespondiente = cerradura[i][fila][columna];
+            cout << "El valor de la celda correspondiente en la matriz " << (i + 1) << " es: " << valorCorrespondiente << endl;
         }
     }
-
-
-    int fila, columna; // Extraer fila y columna a evaluar
-    extraerFilaColumna(clave, fila, columna);
-
-
-    fila -= 1; // Ajustar las coordenadas para reflejar el índice de la matriz
-    columna -= 1;
-
-    for (int k = 0; k < numMatrices - 1; ++k) {
-        int valorActual = cerradura[k][fila][columna]; // Utilizar las coordenadas ajustadas
-        int valorSiguiente = cerradura[k + 1][fila][columna]; // Utilizar las coordenadas ajustadas
-        int condicion = condiciones[k];
-        cout << "Celda (" << fila+1 << ", " << columna+1 << ") en la matriz " << k+ 1 << ": " << valorActual << endl;
-        cout << "Celda (" << fila+1 << ", " << columna+1 << ") en la matriz " << k + 2 << ": " << valorSiguiente << endl;
-        cout << "Condicion para esta comparacion: " << condicion << endl;
-        if ((condicion == 1 && valorActual <= valorSiguiente) ||
-            (condicion == 0 && valorActual != valorSiguiente) ||
-            (condicion == -1 && valorActual >= valorSiguiente)) {
-            cout << "Las condiciones no se cumplen." << endl;
-
-
-            //aqui esta el problema, no se donde
-
-            if (condicion == 1) { // Si la condición es 1, redimensionar la matriz actual
-                redimensionarMatriz(cerradura[k], dimension + 2, dimension);
-                cout << "Matriz " << k + 1 << " redimensionada." << endl;
-                // Volver a imprimir la matriz redimensionada
-                cout << "Matriz " << k + 1 << " redimensionada:" << endl;
-                imprimirMatriz(cerradura[k], dimension + 2);
-                cout << endl;
-                // Volver a evaluar las condiciones con la nueva dimensión
-                return abrirCerradura(cerradura, numMatrices, dimension + 2, clave);
-            }
-            // Si la condición es -1, redimensionar la siguiente matriz en la secuencia
-            else if (condicion == -1) {
-                redimensionarMatriz(cerradura[k + 1], dimension + 2, dimension);
-                cout << "Matriz " << k + 2 << " redimensionada." << endl;
-                // Volver a imprimir la matriz redimensionada
-                cout << "Matriz " << k + 2 << " redimensionada:" << endl;
-                imprimirMatriz(cerradura[k + 1], dimension + 2);
-                cout << endl;
-                // Volver a evaluar las condiciones con la nueva dimensión
-                return abrirCerradura(cerradura, numMatrices, dimension + 2, clave);
-            }
-            delete[] condiciones;
-            return false; // Las condiciones no se cumplen
-        }
-    }
-    // Si se cumplen todas las condiciones, la cerradura se abre
-    delete[] condiciones;
-    cout << "Todas las condiciones se cumplen, la cerradura se abre." << endl;
-    return true;
 }

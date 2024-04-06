@@ -7,53 +7,41 @@ using namespace std;
 
 
 int main() {
-    char clave[100]; // Suponemos que la clave tendrá como máximo 100 caracteres
-    cout << "Ingrese la clave (sin espacios): ";
-    cin >> clave;
+    int cantidadMatrices;
+    cout << "Ingrese la cantidad de matrices en la cerradura: ";
+    cin >> cantidadMatrices;
 
-    // Validar la entrada del usuario
-    if (!validarEntrada(clave)) {
-        return 1;
+    int* dimensiones = new int[cantidadMatrices]; // Arreglo para almacenar las dimensiones de cada matriz
+
+    // Pedir al usuario las dimensiones de cada matriz
+    for (int i = 0; i < cantidadMatrices; ++i) {
+        cout << "Ingrese la dimension de la matriz " << (i + 1) << ": ";
+        cin >> dimensiones[i];
     }
 
-    // Extraer fila y columna de la clave
-    int fila, columna;
-    extraerFilaColumna(clave, fila, columna);
+    // Crear la cerradura de matrices
+    int*** cerradura = crearCerradura(cantidadMatrices, dimensiones);
 
-    // Verificar condiciones en la clave
-    if (!verificarCondiciones(clave)) {
-        return 1;
-    }
-
-    // Obtener la dimensión de las matrices
-    int dimension = obtenerDimension(clave);
-    // Ajustar la dimensión para asegurar que sea impar
-    dimension = ajustarDimension(dimension);
-
-    // Obtener el número de matrices para la cerradura
-    int numMatrices = obtenerNumeroMatrices(clave);
-
-    // Crear la cerradura
-    int*** cerradura = crearCerradura(numMatrices, dimension);
-
-    // Imprimir las matrices de la cerradura
-    for (int i = 0; i < numMatrices; ++i) {
-        cout << "Matriz " << i + 1 << ":" << endl;
-        imprimirMatriz(cerradura[i], dimension);
+    // Imprimir la cerradura
+    for (int i = 0; i < cantidadMatrices; ++i) {
+        cout << "Matriz " << (i + 1) << ":" << endl;
+        imprimirMatriz(cerradura[i], dimensiones[i]);
         cout << endl;
     }
 
-    // Verificar si la cerradura se abre con la clave proporcionada
-    if (abrirCerradura(cerradura, numMatrices, dimension, clave)) {
-        cout << "La cerradura se abre con la clave proporcionada." << endl;
-    } else {
-        cout << "La cerradura no se abre con la clave proporcionada." << endl;
-    }
+    // Solicitar la fila y columna para encontrar la celda correspondiente
+    int fila, columna;
+    cout << "Ingrese la fila y columna de la celda a buscar: ";
+    cin >> fila >> columna;
 
-    // Liberar memoria de la cerradura
-    for (int i = 0; i < numMatrices; ++i) {
-        liberarMemoria(cerradura[i], dimension);
+    // Encontrar la celda correspondiente en cada matriz de la cerradura
+    encontrarCeldaCorrespondiente(cerradura, cantidadMatrices, dimensiones, fila, columna);
+
+    // Liberar la memoria utilizada por la cerradura y las dimensiones
+    for (int i = 0; i < cantidadMatrices; ++i) {
+        liberarMemoria(cerradura[i], dimensiones[i]);
     }
+    delete[] dimensiones;
     delete[] cerradura;
 
     return 0;
