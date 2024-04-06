@@ -19,11 +19,8 @@ void redimensionarMatriz(int **&matriz,int dimension,int Newdimension);
 bool validarEntrada(char entrada[]);
 
 
-
-
-
 //Cerraduras
-int obtenerNumeroMatrices(char clave[]);
+int obtenerNumeroMatrices(char clave[]); //esta es para cuando vamosa generar cerradura cuando solo tenemos clave
 int*** crearCerradura(int cantidadMatrices, int dimensiones[]);
 void encontrarCeldaCorrespondiente(int*** cerradura, int cantidadMatrices, int* dimensiones, int fila, int columna);
 

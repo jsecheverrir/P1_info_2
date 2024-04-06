@@ -124,14 +124,14 @@ int*** crearCerradura(int cantidadMatrices, int dimensiones[]) {
 void encontrarCeldaCorrespondiente(int*** cerradura, int cantidadMatrices, int* dimensiones, int fila, int columna) {
     // Verificar que la fila y columna ingresadas estén dentro de los límites de cada matriz
     for (int i = 0; i < cantidadMatrices; ++i) {
-        if (fila < 0 || fila >= dimensiones[i]+1 || columna < 0 || columna >= dimensiones[i]+1) {
+        if (fila < 0 || fila >= dimensiones[i]+1 || columna < 0 || columna >= dimensiones[i]+1) { //estos +1 es para que coja todo el rango de la matriz
             cout << "La fila o columna ingresada está fuera de los límites de la matriz " << (i + 1) << "." << endl;
             return;
         }
     }
 
     // Obtener el valor de referencia en la primera matriz
-    int valorReferencia = cerradura[0][fila-1][columna-1];
+    int valorReferencia = cerradura[0][fila-1][columna-1]; //estos -1 es para ajustar indices
     cout << "El valor de la celda correspondiente en la primera matriz es: " << valorReferencia << endl;
 
     // Verificar si todas las matrices tienen la misma dimensión

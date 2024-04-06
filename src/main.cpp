@@ -33,6 +33,8 @@ int main() {
     int fila, columna;
     cout << "Ingrese la fila y columna de la celda a buscar: ";
     cin >> fila >> columna;
+    //fila=fila-1;
+    //columna=columna-1;
 
     // Encontrar la celda correspondiente en cada matriz de la cerradura
     encontrarCeldaCorrespondiente(cerradura, cantidadMatrices, dimensiones, fila, columna);
