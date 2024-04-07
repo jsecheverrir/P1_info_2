@@ -5,61 +5,31 @@
 using namespace std;
 
 void encontrarCeldaCorrespondiente(int*** cerradura, int cantidadMatrices, int* dimensiones, int fila, int columna) {
-    if (fila < 0 || fila >= dimensiones[0] || columna < 0 || columna >= dimensiones[0]) {
-        cout << "La fila o columna ingresada está fuera de los límites de la matriz 1." << endl;
-        return;
-    }
-
-    int filaCero = -1;
-    int columnaCero = -1;
-    for (int i = 0; i < dimensiones[0]; ++i) {
-        for (int j = 0; j < dimensiones[0]; ++j) {
-            if (cerradura[0][i][j] == 0) {
-                filaCero = i;
-                columnaCero = j;
-                break;
-            }
-        }
-        if (filaCero != -1 && columnaCero != -1) {
-            break;
-        }
-    }
-
-    
-    int diferenciaFila = filaCero - fila;
-    int diferenciaColumna = columnaCero - columna;
-
+    fila--;
+    columna--;
 
     if (fila < 0 || fila >= dimensiones[0] || columna < 0 || columna >= dimensiones[0]) {
         cout << "La fila o columna ingresada está fuera de los límites de la matriz 1." << endl;
         return;
     }
 
-    int filaCero = -1;
-    int columnaCero = -1;
-    for (int i = 0; i < dimensiones[0]; ++i) {
-        for (int j = 0; j < dimensiones[0]; ++j) {
-            if (cerradura[0][i][j] == 0) {
-                filaCero = i;
-                columnaCero = j;
-                break;
-            }
-        }
-        if (filaCero != -1 && columnaCero != -1) {
-            break;
-        }
-    }
+    int filaCero = dimensiones[0] / 2;
+    int columnaCero = dimensiones[0] / 2;
 
-    
-    int diferenciaFila = filaCero - fila;
-    int diferenciaColumna = columnaCero - columna;
+    int contadorFila = 0, contadorColumna = 0;
+
+    if (fila > filaCero) contadorFila = fila - filaCero;
+    else if (fila < filaCero) contadorFila = -(filaCero - fila);
+
+    if (columna > columnaCero) contadorColumna = columna - columnaCero;
+    else if (columna < columnaCero) contadorColumna = -(columnaCero - columna);
 
     for (int i = 0; i < cantidadMatrices; ++i) {
-        
-        int nuevaFila = filaCero - diferenciaFila;
-        int nuevaColumna = columnaCero - diferenciaColumna;
+        int nuevaFila = (dimensiones[i] / 2) + contadorFila;
+        int nuevaColumna = (dimensiones[i] / 2) + contadorColumna;
 
         if (nuevaFila >= 0 && nuevaFila < dimensiones[i] && nuevaColumna >= 0 && nuevaColumna < dimensiones[i]) {
+            // Obtener el valor en la posición calculada
             int valorCorrespondiente = cerradura[i][nuevaFila][nuevaColumna];
             cout << "El valor de la celda correspondiente en la matriz " << (i + 1) << " es: " << valorCorrespondiente << endl;
         } else {
@@ -67,7 +37,6 @@ void encontrarCeldaCorrespondiente(int*** cerradura, int cantidadMatrices, int* 
         }
     }
 }
-
 
 int main() {
     int cantidadMatrices;
