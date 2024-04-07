@@ -5,29 +5,37 @@
 using namespace std;
 
 void encontrarCeldaCorrespondiente(int*** cerradura, int cantidadMatrices, int* dimensiones, int fila, int columna) {
+    // Ajustar las filas y columnas ingresadas para que comiencen desde 0
     fila--;
     columna--;
 
+    // Verificar que la fila y columna ingresadas estén dentro de los límites de la matriz 1
     if (fila < 0 || fila >= dimensiones[0] || columna < 0 || columna >= dimensiones[0]) {
         cout << "La fila o columna ingresada está fuera de los límites de la matriz 1." << endl;
         return;
     }
 
+    // Calcular la posición del cero en la primera matriz basándonos en la posición (dimension/2, dimension/2)
     int filaCero = dimensiones[0] / 2;
     int columnaCero = dimensiones[0] / 2;
 
+    // Inicializar contadores para filas y columnas
     int contadorFila = 0, contadorColumna = 0;
 
+    // Ajustar los contadores dependiendo de la dirección del movimiento
     if (fila > filaCero) contadorFila = fila - filaCero;
     else if (fila < filaCero) contadorFila = -(filaCero - fila);
 
     if (columna > columnaCero) contadorColumna = columna - columnaCero;
     else if (columna < columnaCero) contadorColumna = -(columnaCero - columna);
 
+    // Encontrar la celda correspondiente en las matrices restantes de la cerradura
     for (int i = 0; i < cantidadMatrices; ++i) {
+        // Calcular la nueva posición en la matriz actual basándonos en los contadores
         int nuevaFila = (dimensiones[i] / 2) + contadorFila;
         int nuevaColumna = (dimensiones[i] / 2) + contadorColumna;
 
+        // Verificar si la posición calculada está dentro de los límites de la matriz actual
         if (nuevaFila >= 0 && nuevaFila < dimensiones[i] && nuevaColumna >= 0 && nuevaColumna < dimensiones[i]) {
             // Obtener el valor en la posición calculada
             int valorCorrespondiente = cerradura[i][nuevaFila][nuevaColumna];
