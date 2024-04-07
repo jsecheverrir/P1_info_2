@@ -5,7 +5,7 @@
 using namespace std;
 
 
-
+/*
 int main() {
     int cantidadMatrices;
     cout << "Ingrese la cantidad de matrices en la cerradura: ";
@@ -48,3 +48,4 @@ int main() {
 
     return 0;
 }
+*/
