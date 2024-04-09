@@ -121,10 +121,59 @@ Valor booleano que indica si los números de fila y columna existen dentro de la
 
 8.  validarReglas()
 
+1c. Algoritmos implementados:
 
+Función para crear matrices de tamaño variable (crearMatriz): Esta función crea una matriz de tamaño variable con el número de filas 
+y columnas especificado por el usuario. La matriz creada se inicializa con valores secuenciales.
 
+Función para redimensionar matrices (redimensionarMatriz): Esta función redimensiona una matriz existente para que 
+tenga el número de filas y columnas especificado. Se asegura de conservar los datos originales si es posible.
 
+Función para realizar rotaciones (rotarMatriz): Esta función rota una matriz en una dirección específica, según el 
+estado proporcionado (1, 2 o 3).
 
+Función para imprimir matrices (imprimirMatriz): Esta función imprime una matriz en la consola de manera legible.
+
+Función para hallar la dimensión mínima de la matriz con la entrada de filas y columnas
+
+Funcion para crear una cerradura con la cantidad de matrices y sus dimensiones
+
+Funcion para validar las condiciones, donde encontramos los valores correspondientes en cada matriz y hacemos la verificacion con la 
+clave ingresada
+
+1d. Problemas de desarrollo que afrontó:
+
+Durante el desarrollo, uno de los principales problemas a los que nos enfrentamos fue 
+garantizar que las operaciones de redimensionamiento y rotación de las matrices se realizaran correctamente. 
+Tuvimos que prestar especial atención para asegurarnos de conservar los datos de manera apropiada y de que las operaciones 
+fueran eficientes en términos de rendimiento.
+
+Además, enfrentamos desafíos al manejar las validaciones de la clave K. Fue crucial asegurarnos de que el formato de la 
+clave fuera correcto y coherente con la cantidad de matrices en la cerradura. También debimos verificar que las filas y columnas 
+especificadas en la clave existieran dentro de las matrices, lo cual implicó un cuidadoso manejo de los índices y la verificación 
+de la existencia de cada celda en las matrices correspondientes.
+
+Por ultimo el problema mayor fue la evaluacion de las condiciones cuando esta era especificamente -1, tuvimos varios problemas con este -1
+ya que este nos dañaba por ejemplo la cantidad de matrices a generar, y hacer su validacion como entrada fue algo bastante complicado. 
+
+1e. Evolución de la solución y consideraciones para tener en cuenta en la implementación:
+
+Durante la evolución de la solución, se realizaron varias iteraciones para optimizar el rendimiento y la eficiencia del código. 
+Se prestaron especial atención a las operaciones que involucran la manipulación de matrices, como la redimensión y la rotación, 
+para garantizar un funcionamiento óptimo.
+
+También se borro todo y se volvio a empezar de 0 en varias ocasiones, para mejorar la claridad y modularidad del codigo
+
+Para la implementación, es importante tener en cuenta la modularidad del código y la claridad de la interfaz de usuario. 
+Se debe proporcionar una documentación detallada de las funciones y asegurarse de que el sistema sea fácil de entender y 
+usar para los usuarios finales. Además, se debe realizar una exhaustiva prueba del sistema para garantizar su fiabilidad y corrección.
+
+Tambien tener muy presente el manejo del -1 en la clave, ya que, como mencionamos anteriormente, este nos estaba dañando gran parte del
+codigo porque no sabiamos bien como manejarlo.
+
+Por ultimo, tener presente que el valor de referencia no es el mismo fila y columna ingresada en la clave para todas las matrices, 
+sino que se aplica solo a la primera, y de aqui se debe hacer el ajuste de fila y columna para llegar al valor indicado teniendo como 
+referencia el 0 del centro de cada matriz
 
 
 
